@@ -5,7 +5,7 @@ import AppRouter from './routers/appRouter';
 import configureStore from './store/configureStore';
 
 
-import 'react-dates/initialize';
+
 
 
 const store = configureStore();

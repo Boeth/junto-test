@@ -1,50 +1,105 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { DateRangePicker } from 'react-dates';
+import moment from 'moment';
+import numeral from 'numeral';
 import selectExpenses from '../selectors/expenses';
 import selectExpensesTotal from '../selectors/expenses-total';
-import {sortByAmount, sortByDate, setStartDate, setEndDate } from '../actions/filters';
+import { sortByAmount, sortByDate, setStartDate, setEndDate } from '../actions/filters';
+
+import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import Typography from '@material-ui/core/Typography';
 
 class ExpenseListFilters extends React.Component {
-  state = {
-    calendarFocused: null
+  state = {   
+    startDate: this.props.filters.startDate.format('YYYY-MM-DD'),
+    endDate: this.props.filters.endDate.format('YYYY-MM-DD') ,
   };
-  onDatesChange = ({ startDate, endDate }) => {
+  
+
+  onFilterChange = (e) => {
+    if (e.target.value === "date")
+      this.props.dispatch(sortByDate());
+    else if (e.target.value === "amount")
+      this.props.dispatch(sortByAmount());
+  };
+
+  onStartDateChange = (e) => {
+    const startDate = e.target.value
+    if (startDate) {
+      this.setState(() => (
+        {
+          startDate: startDate
+        }
+      ))
+      this.onDatesChange(moment(startDate, 'DD-MM-YYYY'), moment(this.state.endDate, 'DD-MM-YYYY'))
+    }   
+  };
+
+  onEndDateChange = (e) => {
+    const endDate = e.target.value
+    if (endDate) {
+      this.setState(() => (
+        {
+          endDate: endDate
+        }
+      ))     
+      this.onDatesChange(moment(this.state.startDate, 'DD-MM-YYYY'), moment(endDate, 'DD-MM-YYYY'))
+    }
+  };
+
+  onDatesChange = ( startDate, endDate ) => {   
     this.props.dispatch(setStartDate(startDate));
     this.props.dispatch(setEndDate(endDate));
   };
-  onFocusChange = (calendarFocused) => {
-    this.setState(() => ({ calendarFocused: calendarFocused }));
-  };
+
+
+
   render() {
     return (
-      <div>   
+      <div>
         
-        <select
-          value={this.props.filters.sortBy}
-          onChange={(e) => {
-            if (e.target.value === "date")
-              this.props.dispatch(sortByDate());
-            else if (e.target.value === "amount")
-              this.props.dispatch(sortByAmount());
+        <FormControl >
+          <InputLabel htmlFor="filter">Фильтр</InputLabel>
+          <Select
+            native
+            value={this.props.filters.sortBy}
+            onChange={this.onFilterChange}
+            input={<Input name="filter" id="filter" />}
+          >
+            <option value={"date"}>По дате</option>
+            <option value={"amount"}>По сумме</option>
+          </Select>
+        </FormControl>
+ 
+        <TextField
+          id="startDate"
+          label="Начало периода"
+          type="date" 
+          defaultValue={this.state.startDate}    
+          onChange={this.onStartDateChange}
+          InputLabelProps={{
+            shrink: true,
           }}
-        >
-          <option value="date">По дате</option>
-          <option value="amount">По сумме</option>
-        </select>
-          <DateRangePicker
-            startDate={this.props.filters.startDate}
-            endDate={this.props.filters.endDate}
-            onDatesChange={this.onDatesChange}
-            focusedInput={this.state.calendarFocused}
-            onFocusChange={this.onFocusChange}
-            showClearDates={true}
-            numberOfMonths={1}
-            isOutsideRange={() => false}
+        />
+        <TextField
+          id="endDate"
+          label="Конец периода"
+          type="date"
+          defaultValue={this.state.endDate}           
+          onChange={this.onEndDateChange}
+          InputLabelProps={{
+            shrink: true,
+          }}
           />
-           <div className="content-container">
-                <h2 className="page-header__title">Всего записей <span>{this.props.expenseCount}</span> | Расходы: <span>{this.props.expensesTotal}</span></h2>                
-            </div>
+      
+          <Typography variant="title" color="inherit" >
+          Всего записей <span>{this.props.expenseCount}</span> | Расходы: <span>{numeral(this.props.expensesTotal / 100).format('0,0.00')}</span>
+          </Typography>     
+     
       </div>
     )
   }

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import ExpenseForm from './expenseForm';
 import { editExpense, removeExpense } from '../actions/expenses';
 
+import Button from '@material-ui/core/Button';
+
 const EditExpensePage = (props) => (
   <div>
     <ExpenseForm
@@ -12,14 +14,14 @@ const EditExpensePage = (props) => (
         props.history.push('/');
       }}
     />
-    <button
+    <Button
       onClick={() => {
         props.dispatch(removeExpense({ id: props.expense.id }));
         props.history.push('/');
       }}
     >
       Удалить
-    </button>
+    </Button>
   </div>
 );
 
