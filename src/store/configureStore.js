@@ -1,15 +1,21 @@
 import { createStore, combineReducers } from 'redux';
 import expensesReducer from '../reducers/expenses';
 import filtersReducer from '../reducers/filters';
+import {loadState, saveState} from './localStorage'
 
-export default () => {
-  return (
-    createStore(
-      combineReducers({
-        expenses: expensesReducer,
-        filters: filtersReducer
-      }),
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() 
-    )
+const persistedState = loadState();
+
+const rootReducer = combineReducers({
+  expenses: expensesReducer,
+  filters: filtersReducer
+});
+
+const store = createStore(rootReducer, persistedState)
+
+store.subscribe(()=>{
+  saveState(
+   {expenses: store.getState().expenses}
   );
-};
+})
+
+export default store;
