@@ -1,0 +1,17 @@
+body {
+  margin: 0px;
+}
+header {
+  margin-bottom: 20px;
+}
+.Filter {
+  margin:15px;
+  padding:5px;
+}
+.Total {
+  margin-top:5px;
+}
+.List {
+  margin:15px;
+  padding:5px;
+}

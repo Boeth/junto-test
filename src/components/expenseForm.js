@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
@@ -9,9 +10,9 @@ export default class ExpenseForm extends React.Component {
     this.state = {
       description: props.expense ? props.expense.description : '',
       amount: props.expense ? (props.expense.amount / 100).toString() : '',
-      createdAt: props.expense ? moment(props.expense.createdAt) : moment(),    
+      createdAt: props.expense ? moment(props.expense.createdAt) : moment(),
       error: '',
-      currentDate:  moment().format('YYYY-MM-DD'),
+      currentDate: moment().format('YYYY-MM-DD'),
     };
   };
 
@@ -43,7 +44,7 @@ export default class ExpenseForm extends React.Component {
           createdAt: createdAt
         }
       ))
-    } 
+    }
   };
 
 
@@ -64,7 +65,7 @@ export default class ExpenseForm extends React.Component {
       this.props.onSubmit({
         description: this.state.description,
         amount: parseFloat(this.state.amount, 10) * 100,
-        createdAt: this.state.createdAt      
+        createdAt: this.state.createdAt
       });
     }
   };
@@ -96,16 +97,16 @@ export default class ExpenseForm extends React.Component {
           <TextField
             id="date"
             label="Дата"
-            type="date" 
-            defaultValue={this.state.currentDate}                 
-            onChange={this.onDateChange}          
+            type="date"
+            defaultValue={this.state.currentDate}
+            onChange={this.onDateChange}
             InputLabelProps={{
               shrink: true,
             }}
           />
 
           <Button type="submit" color="inherit">Сохранить</Button>
-          
+
         </form>
       </div>
     )

@@ -14,11 +14,10 @@ import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
 
 class ExpenseListFilters extends React.Component {
-  state = {   
+  state = {
     startDate: this.props.filters.startDate.format('YYYY-MM-DD'),
-    endDate: this.props.filters.endDate.format('YYYY-MM-DD') ,
+    endDate: this.props.filters.endDate.format('YYYY-MM-DD'),
   };
-  
 
   onFilterChange = (e) => {
     if (e.target.value === "date")
@@ -36,7 +35,7 @@ class ExpenseListFilters extends React.Component {
         }
       ))
       this.onDatesChange(moment(startDate, 'DD-MM-YYYY'), moment(this.state.endDate, 'DD-MM-YYYY'))
-    }   
+    }
   };
 
   onEndDateChange = (e) => {
@@ -46,22 +45,20 @@ class ExpenseListFilters extends React.Component {
         {
           endDate: endDate
         }
-      ))     
+      ))
       this.onDatesChange(moment(this.state.startDate, 'DD-MM-YYYY'), moment(endDate, 'DD-MM-YYYY'))
     }
   };
 
-  onDatesChange = ( startDate, endDate ) => {   
+  onDatesChange = (startDate, endDate) => {
     this.props.dispatch(setStartDate(startDate));
     this.props.dispatch(setEndDate(endDate));
   };
 
-
-
   render() {
     return (
-      <div>
-        
+      <div className="Filter">
+
         <FormControl >
           <InputLabel htmlFor="filter">Фильтр</InputLabel>
           <Select
@@ -74,12 +71,12 @@ class ExpenseListFilters extends React.Component {
             <option value={"amount"}>По сумме</option>
           </Select>
         </FormControl>
- 
+
         <TextField
           id="startDate"
           label="Начало периода"
-          type="date" 
-          defaultValue={this.state.startDate}    
+          type="date"
+          defaultValue={this.state.startDate}
           onChange={this.onStartDateChange}
           InputLabelProps={{
             shrink: true,
@@ -89,17 +86,17 @@ class ExpenseListFilters extends React.Component {
           id="endDate"
           label="Конец периода"
           type="date"
-          defaultValue={this.state.endDate}           
+          defaultValue={this.state.endDate}
           onChange={this.onEndDateChange}
           InputLabelProps={{
             shrink: true,
           }}
-          />
-      
+        />
+        <div className="Total">
           <Typography variant="title" color="inherit" >
-          Всего записей <span>{this.props.expenseCount}</span> | Расходы: <span>{numeral(this.props.expensesTotal / 100).format('0,0.00')}</span>
-          </Typography>     
-     
+            Всего записей <span>{this.props.expenseCount}</span> | Расходы: <span>{numeral(this.props.expensesTotal / 100).format('0,0.00')}</span>
+          </Typography>
+        </div>
       </div>
     )
   }

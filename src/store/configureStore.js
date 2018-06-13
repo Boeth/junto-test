@@ -1,7 +1,7 @@
 import { createStore, combineReducers } from 'redux';
 import expensesReducer from '../reducers/expenses';
 import filtersReducer from '../reducers/filters';
-import {loadState, saveState} from './localStorage'
+import { loadState, saveState } from './localStorage'
 
 const persistedState = loadState();
 
@@ -12,9 +12,9 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer, persistedState)
 
-store.subscribe(()=>{
+store.subscribe(() => {
   saveState(
-   {expenses: store.getState().expenses}
+    { expenses: store.getState().expenses }
   );
 })
 

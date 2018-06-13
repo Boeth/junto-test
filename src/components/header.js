@@ -1,13 +1,11 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 
 const styles = {
   root: {
@@ -24,23 +22,19 @@ const styles = {
 
 const Header = (props) => {
   const { classes } = props;
-  return(
-  <header>  
-    <AppBar position="static">
+  return (
+    <header>
+      <AppBar position="static" color="default">
         <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
           <Typography variant="title" color="inherit" className={classes.flex}>
             Контроль расходов
           </Typography>
-          <Button color="inherit"><NavLink to="/" activeClassName="is-active" exact={true}>Список</NavLink></Button>
-          <Button color="inherit"> <NavLink to="/add" activeClassName="is-active">Создать расход</NavLink></Button>
+          <Button color="inherit"><Link to="/" >Список</Link></Button>
+          <Button color="inherit"><Link to="/add" >Создать расход</Link></Button>
         </Toolbar>
       </AppBar>
-  </header>
+    </header>
   )
 }
-
 
 export default withStyles(styles)(Header);
